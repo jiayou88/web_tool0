@@ -1,337 +1,783 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="theme-color" content="#f9f9f9" />
-    <title>关于我们 - 在线工具网</title>
-    <link rel="shortcut icon" href="../assets/images/favicon.png" />
-    <meta name="keywords" content="在线工具网,关于我们" />
-    <meta name="description" content="在线网址导航, 各类开发工具、绘图绘画工具、md5、在线ps、base64、房贷计算器等" />
-
-    <link rel="stylesheet" id="block-library-css"
-        href="../assets/css/block-library.min-5.6.2.css" type="text/css" media="all" />
-    <link rel="stylesheet" id="iconfont-css" href="../assets/css/iconfont-3.03029.1.css"
-        type="text/css" media="all" />
-    <link rel="stylesheet" id="bootstrap-css" href="../assets/css/bootstrap.min-4.3.1.css"
-        type="text/css" media="all" />
-    <link rel="stylesheet" id="iowen-css" href="../assets/css/style-3.03029.1.css"
-        type="text/css" media="all" />
-    <link rel="stylesheet" id="custom-css" href="../assets/css/custom-style.css"
-        type="text/css" media="all" />
-    <link rel="stylesheet" id="fortawesome-css" href="../assets/fontawesome-5.15.4/css/all.min.css" type="text/css" />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>共享视频播放器 - 关于页面</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/fontawesome-5.15.4/css/all.min.css">
     <style>
-        body {
-            background: #f5f7fa;
-            padding: 20px 0;
+        /* 样式保持不变，和之前一样 */
+        .video-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        .about-container {
-            max-width: 900px;
-            margin: 50px auto;
-            background: #fff;
+        .player-section {
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            position: relative;
+            padding-top: 56.25%;
+        }
+
+        #videoPlayer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .now-playing {
+            background: #f8f9fa;
+            padding: 15px;
             border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .now-playing h3 {
+            margin: 0;
+            color: #333;
+            font-size: 1.2em;
+        }
+
+        .now-playing .video-meta {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .add-video-form {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #0070f3;
+            outline: none;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #0070f3;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0051b3;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .video-list {
+            background: white;
+            border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             overflow: hidden;
         }
 
-        .about-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
-
-        .about-header h1 {
-            font-size: 32px;
-            margin: 0 0 10px 0;
-            font-weight: 600;
-        }
-
-        .about-header p {
-            font-size: 16px;
-            margin: 0;
-            opacity: 0.9;
-        }
-
-        .about-content {
-            padding: 40px 30px;
-        }
-
-        .section {
-            margin-bottom: 35px;
-        }
-
-        .section:last-child {
-            margin-bottom: 0;
-        }
-
-        .section-title {
-            font-size: 22px;
-            color: #333;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #f0f0f0;
+        .list-header {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 2px solid #e0e0e0;
             display: flex;
+            justify-content: space-between;
             align-items: center;
         }
 
-        .section-title i {
-            margin-right: 10px;
-            color: #667eea;
-        }
-
-        .section-content {
-            font-size: 15px;
-            line-height: 1.8;
-            color: #555;
-        }
-
-        .section-content p {
-            margin-bottom: 15px;
-        }
-
-        .section-content p:last-child {
-            margin-bottom: 0;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .skill-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 6px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .skill-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .skill-item i {
-            font-size: 28px;
-            color: #667eea;
-            margin-bottom: 8px;
-        }
-
-        .skill-item .skill-name {
-            font-weight: 600;
+        .list-header h3 {
+            margin: 0;
             color: #333;
-            font-size: 14px;
-        }
-
-        .contact-list {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0 0 0;
-        }
-
-        .contact-list li {
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            background: #f8f9fa;
-            border-radius: 6px;
             display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sync-status {
+            color: #28a745;
+            font-size: 0.9em;
+        }
+
+        .video-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
             transition: background 0.3s;
         }
 
-        .contact-list li:hover {
-            background: #e9ecef;
-        }
-
-        .contact-list li i {
-            margin-right: 12px;
-            color: #667eea;
-            width: 20px;
-            text-align: center;
-        }
-
-        .contact-list li strong {
-            color: #333;
-            margin-right: 8px;
-            min-width: 80px;
-        }
-
-        .contact-list li a {
-            color: #667eea;
-            text-decoration: none;
-            word-break: break-all;
-        }
-
-        .contact-list li a:hover {
-            text-decoration: underline;
-        }
-
-        .back-home {
-            text-align: center;
-            padding: 30px;
+        .video-item:hover {
             background: #f8f9fa;
         }
 
-        .back-home a {
-            display: inline-block;
-            padding: 10px 30px;
-            background: #667eea;
-            color: white;
-            text-decoration: none;
-            border-radius: 25px;
-            transition: background 0.3s, transform 0.3s;
+        .video-item.playing {
+            background: #e3f2fd;
+            border-left: 4px solid #0070f3;
         }
 
-        .back-home a:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
+        .video-info {
+            flex: 1;
         }
 
-        .back-home a i {
-            margin-right: 8px;
+        .video-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
         }
 
-        .highlight-box {
-            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
-            border-left: 4px solid #667eea;
-            padding: 20px;
-            border-radius: 6px;
-            margin: 20px 0;
+        .video-url {
+            font-size: 0.85em;
+            color: #666;
+            word-break: break-all;
         }
 
-        .highlight-box p {
-            margin: 0;
-            color: #555;
-            line-height: 1.8;
+        .video-progress {
+            font-size: 0.85em;
+            color: #28a745;
+            margin-top: 5px;
+        }
+
+        .video-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .video-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .play-btn {
+            color: #0070f3;
+        }
+
+        .play-btn:hover {
+            background: #e3f2fd;
+        }
+
+        .delete-btn {
+            color: #dc3545;
+        }
+
+        .delete-btn:hover {
+            background: #f8d7da;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .loading i {
+            margin-right: 10px;
         }
 
         @media (max-width: 768px) {
-            .about-container {
-                margin: 20px;
+            .video-container {
+                padding: 10px;
             }
-
-            .about-header {
-                padding: 30px 20px;
+            
+            .video-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
             }
-
-            .about-header h1 {
-                font-size: 26px;
-            }
-
-            .about-content {
-                padding: 30px 20px;
-            }
-
-            .skills-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            
+            .video-actions {
+                width: 100%;
+                justify-content: flex-end;
             }
         }
+
+        .video-type {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .type-youtube {
+            background: #ff0000;
+            color: white;
+        }
+
+        .type-bilibili {
+            background: #00a1d6;
+            color: white;
+        }
+
+        .type-mp4 {
+            background: #28a745;
+            color: white;
+        }
+
+        .type-other {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* 本地播放提示 */
+        .local-indicator {
+            display: inline-block;
+            padding: 2px 8px;
+            background: #6c757d;
+            color: white;
+            border-radius: 12px;
+            font-size: 0.75em;
+            margin-left: 10px;
+        }
     </style>
-
-    <script>
-        !function(p){"use strict";!function(t){var s=window,e=document,i=p,c="".concat("https:"===e.location.protocol?"https://":"http://","sdk.51.la/js-sdk-pro.min.js"),n=e.createElement("script"),r=e.getElementsByTagName("script")[0];n.type="text/javascript",n.setAttribute("charset","UTF-8"),n.async=!0,n.src=c,n.id="LA_COLLECT",i.d=n;var o=function(){s.LA.ids.push(i)};s.LA?s.LA.ids&&o():(s.LA=p,s.LA.ids=[],o()),r.parentNode.insertBefore(n,r)}()}({id:"3G9QRCtAm0z4ABfe",ck:"3G9QRCtAm0z4ABfe"});
-    </script>
 </head>
-
-<body class="io-grey-mode">
-    <div class="about-container">
-        <div class="about-header">
-            <h1><i class="fas fa-user-circle"></i> 关于作者</h1>
-            <p>热爱技术，专注于软件开发与创新</p>
+<body>
+    <div class="video-container">
+        <h1><i class="fas fa-video"></i> 共享视频播放器</h1>
+        
+        <!-- 当前播放信息（本地） -->
+        <div class="now-playing" id="nowPlaying">
+            <div>
+                <h3>
+                    <i class="fas fa-play-circle"></i> 
+                    正在播放: <span id="currentVideoTitle">未选择视频</span>
+                    <span class="local-indicator"><i class="fas fa-laptop"></i> 本设备</span>
+                </h3>
+                <div class="video-meta">
+                    <span id="currentVideoViews"><i class="fas fa-eye"></i> 0 次播放</span>
+                    <span id="currentVideoAdded"><i class="fas fa-clock"></i> 刚刚添加</span>
+                </div>
+            </div>
+            <button class="btn btn-danger" id="clearAllBtn" onclick="clearAllVideos()">
+                <i class="fas fa-trash"></i> 清空列表
+            </button>
         </div>
 
-        <div class="about-content">
-            <div class="section">
-                <h2 class="section-title">
-                    <i class="fas fa-id-card"></i>
-                    个人简介
-                </h2>
-                <div class="section-content">
-                    <div class="highlight-box">
-                        <p>大家好，我叫Tom，来自于北京，专业是计算机技术。在过去的5年中，我一直在某大型互联网公司担任软件工程师，专注于Java/Python/Javascript的开发和研究。</p>
-                    </div>
-                    <p>在大学期间，我就开始对编程产生浓厚的兴趣，通过自学和实践，我掌握了各种编程语言和开发工具。在工作的期间，我主要负责开发和维护公司的后端系统，涉及到的主要技术栈是Java和Spring Boot。在这个过程中，我积累了丰富的经验，能够熟练地使用Java进行后端开发，并且能够快速地解决开发过程中遇到的各种问题。</p>
-                    <p>除了Java和Spring Boot，我还熟悉Python、C++等其他编程语言，并且能够使用JavaScript进行前端开发。此外，我还熟悉数据库的操作，能够熟练使用MySQL、Oracle等数据库管理系统。</p>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">
-                    <i class="fas fa-code"></i>
-                    技术栈
-                </h2>
-                <div class="skills-grid">
-                    <div class="skill-item">
-                        <i class="fab fa-java"></i>
-                        <div class="skill-name">Java / Spring Boot</div>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-python"></i>
-                        <div class="skill-name">Python</div>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fab fa-js"></i>
-                        <div class="skill-name">JavaScript</div>
-                    </div>
-                    <div class="skill-item">
-                        <i class="fas fa-database"></i>
-                        <div class="skill-name">MySQL / Oracle</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">
-                    <i class="fas fa-heart"></i>
-                    工作理念
-                </h2>
-                <div class="section-content">
-                    <p>在工作中，我注重团队协作，能够与团队成员保持良好的沟通和合作。同时，我还注重代码的可读性和可维护性，能够编写高质量的代码。我对于新技术的学习充满热情，并且能够将所学技术应用到实际工作中。</p>
-                    <p>除了工作和学习，我还积极参加各种技术社区和活动，通过与他人的交流和学习，不断提升自己的技术水平和解决问题的能力。</p>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2 class="section-title">
-                    <i class="fas fa-address-book"></i>
-                    联系方式
-                </h2>
-                <ul class="contact-list">
-                    <li>
-                        <i class="fab fa-github"></i>
-                        <strong>GitHub:</strong>
-                        <a href="https://github.com/geeeeeeeek" target="_blank">https://github.com/geeeeeeeek</a>
-                    </li>
-                    <li>
-                        <i class="fas fa-globe"></i>
-                        <strong>个人主页:</strong>
-                        <a href="https://web.gitapp.cn" target="_blank">https://web.gitapp.cn</a>
-                    </li>
-                    <li>
-                        <i class="fas fa-envelope"></i>
-                        <strong>邮箱:</strong>
-                        <a href="mailto:kefu308@gmail.com">kefu308@gmail.com</a>
-                    </li>
-                </ul>
-            </div>
+        <!-- 视频播放器区域 -->
+        <div class="player-section">
+            <iframe id="videoPlayer" 
+                    src=""
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+            </iframe>
         </div>
 
-        <div class="back-home">
-            <a href="/">
-                <i class="fas fa-home"></i>
-                返回首页
-            </a>
+        <!-- 添加视频表单 -->
+        <div class="add-video-form">
+            <h3><i class="fas fa-plus-circle"></i> 添加视频链接</h3>
+            <form id="addVideoForm">
+                <div class="form-group">
+                    <label for="videoTitle">视频标题</label>
+                    <input type="text" id="videoTitle" placeholder="例如: 搞笑视频" required>
+                </div>
+                <div class="form-group">
+                    <label for="videoUrl">视频链接</label>
+                    <input type="url" id="videoUrl" placeholder="支持 YouTube、B站、MP4直链等" required>
+                </div>
+                <div class="form-group">
+                    <label for="videoType">视频类型</label>
+                    <select id="videoType">
+                        <option value="auto">自动识别</option>
+                        <option value="youtube">YouTube</option>
+                        <option value="bilibili">B站</option>
+                        <option value="mp4">MP4直链</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> 添加到列表
+                </button>
+            </form>
+        </div>
+
+        <!-- 视频列表（全局共享） -->
+        <div class="video-list">
+            <div class="list-header">
+                <h3>
+                    <i class="fas fa-list"></i> 
+                    全局播放列表 (<span id="videoCount">0</span>)
+                    <span class="local-indicator"><i class="fas fa-globe"></i> 所有设备共享</span>
+                </h3>
+                <div class="sync-status" id="syncStatus">
+                    <i class="fas fa-sync-alt fa-spin"></i> 同步中...
+                </div>
+            </div>
+            <div id="videoListContainer">
+                <div class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> 加载视频列表...
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="../assets/js/jquery.min-3.2.1.js"></script>
+    <script>
+        // API 配置
+        const API_BASE = 'https://webtool-api.你的用户名.workers.dev';
+        
+        // 本地状态 - 每个设备独立
+        let currentVideoId = localStorage.getItem('currentVideoId') || null;
+        let videoProgress = JSON.parse(localStorage.getItem('videoProgress') || '{}');
+        
+        // 全局视频列表缓存
+        let globalVideoList = [];
+        
+        // 同步间隔
+        let syncInterval = null;
+        
+        // ========== 视频链接解析工具 ==========
+        function parseVideoUrl(url, type) {
+            if (type === 'auto') {
+                if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                    return parseYouTubeUrl(url);
+                } else if (url.includes('bilibili.com')) {
+                    return parseBilibiliUrl(url);
+                } else if (url.match(/\.(mp4|webm|ogg)(\?.*)?$/i)) {
+                    return { type: 'mp4', embedUrl: url };
+                }
+                return { type: 'other', embedUrl: url };
+            }
+            
+            switch(type) {
+                case 'youtube':
+                    return parseYouTubeUrl(url);
+                case 'bilibili':
+                    return parseBilibiliUrl(url);
+                case 'mp4':
+                    return { type: 'mp4', embedUrl: url };
+                default:
+                    return { type: 'other', embedUrl: url };
+            }
+        }
+        
+        function parseYouTubeUrl(url) {
+            const patterns = [
+                /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&?#]+)/,
+                /youtube\.com\/embed\/([^/?]+)/
+            ];
+            
+            for (let pattern of patterns) {
+                const match = url.match(pattern);
+                if (match) {
+                    return {
+                        type: 'youtube',
+                        embedUrl: `https://www.youtube.com/embed/${match[1]}?enablejsapi=1`
+                    };
+                }
+            }
+            return { type: 'youtube', embedUrl: url };
+        }
+        
+        function parseBilibiliUrl(url) {
+            const match = url.match(/(?:bilibili\.com\/video\/)([^/?]+)/);
+            if (match) {
+                return {
+                    type: 'bilibili',
+                    embedUrl: `//player.bilibili.com/player.html?bvid=${match[1]}&page=1`
+                };
+            }
+            return { type: 'bilibili', embedUrl: url };
+        }
+        
+        // ========== API 调用 ==========
+        async function getVideoList() {
+            const response = await fetch(`${API_BASE}/api/videos`);
+            return await response.json();
+        }
+        
+        async function addVideo(videoData) {
+            const response = await fetch(`${API_BASE}/api/videos`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(videoData)
+            });
+            return await response.json();
+        }
+        
+        async function updateVideoProgress(videoId, currentTime, duration) {
+            // 保存到本地
+            videoProgress[videoId] = {
+                currentTime,
+                duration,
+                updatedAt: new Date().toISOString()
+            };
+            localStorage.setItem('videoProgress', JSON.stringify(videoProgress));
+            
+            // 同步到服务器（让其他设备可以看到进度）
+            await fetch(`${API_BASE}/api/videos/progress`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ videoId, currentTime, duration })
+            });
+        }
+        
+        async function deleteVideo(videoId) {
+            await fetch(`${API_BASE}/api/videos/${videoId}`, {
+                method: 'DELETE'
+            });
+            
+            // 清除本地进度
+            if (videoProgress[videoId]) {
+                delete videoProgress[videoId];
+                localStorage.setItem('videoProgress', JSON.stringify(videoProgress));
+            }
+            
+            // 如果删除的是当前播放的视频
+            if (currentVideoId === videoId) {
+                currentVideoId = null;
+                localStorage.removeItem('currentVideoId');
+                document.getElementById('videoPlayer').src = '';
+                document.getElementById('currentVideoTitle').textContent = '未选择视频';
+            }
+        }
+        
+        async function clearAllVideos() {
+            if (!confirm('确定要清空所有视频吗？')) return;
+            
+            await fetch(`${API_BASE}/api/videos/clear`, {
+                method: 'POST'
+            });
+            
+            // 清除本地所有数据
+            currentVideoId = null;
+            videoProgress = {};
+            localStorage.removeItem('currentVideoId');
+            localStorage.removeItem('videoProgress');
+            document.getElementById('videoPlayer').src = '';
+            document.getElementById('currentVideoTitle').textContent = '未选择视频';
+            
+            await loadVideoList();
+            updateSyncStatus('已清空列表');
+        }
+        
+        // ========== UI 更新函数 ==========
+        function updateSyncStatus(message) {
+            const status = document.getElementById('syncStatus');
+            status.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            setTimeout(() => {
+                status.innerHTML = '<i class="fas fa-sync-alt"></i> 已同步';
+            }, 2000);
+        }
+        
+        function getVideoTypeBadge(type) {
+            const badges = {
+                'youtube': 'type-youtube',
+                'bilibili': 'type-bilibili',
+                'mp4': 'type-mp4',
+                'other': 'type-other'
+            };
+            return `<span class="video-type ${badges[type] || 'type-other'}">${type}</span>`;
+        }
+        
+        function formatTime(seconds) {
+            if (!seconds) return '0:00';
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = Math.floor(seconds % 60);
+            
+            if (h > 0) {
+                return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+            }
+            return `${m}:${s.toString().padStart(2, '0')}`;
+        }
+        
+        // ========== 视频列表加载 ==========
+        async function loadVideoList() {
+            try {
+                globalVideoList = await getVideoList();
+                const container = document.getElementById('videoListContainer');
+                const countSpan = document.getElementById('videoCount');
+                
+                countSpan.textContent = globalVideoList.length;
+                
+                if (globalVideoList.length === 0) {
+                    container.innerHTML = `
+                        <div class="loading">
+                            <i class="fas fa-film"></i> 暂无视频，添加第一个吧！
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = globalVideoList.map(video => {
+                    // 使用本地进度优先，如果没有再用服务器进度
+                    const progress = videoProgress[video.id] || video.progress;
+                    
+                    return `
+                    <div class="video-item ${currentVideoId === video.id ? 'playing' : ''}" id="video-${video.id}">
+                        <div class="video-info">
+                            <div class="video-title">
+                                ${getVideoTypeBadge(video.type)}
+                                ${escapeHtml(video.title)}
+                                ${currentVideoId === video.id ? '<span class="local-indicator">本设备播放中</span>' : ''}
+                            </div>
+                            <div class="video-url">${escapeHtml(video.url)}</div>
+                            ${progress ? `
+                                <div class="video-progress">
+                                    <i class="fas fa-clock"></i> 
+                                    进度: ${formatTime(progress.currentTime)} / ${formatTime(progress.duration)}
+                                    (${Math.round((progress.currentTime / progress.duration) * 100)}%)
+                                    ${videoProgress[video.id] ? '· 本设备' : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div class="video-actions">
+                            <button class="play-btn" onclick="playVideo('${video.id}')" title="播放">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="delete-btn" onclick="deleteVideoHandler('${video.id}')" title="删除">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `}).join('');
+                
+            } catch (error) {
+                console.error('加载视频列表失败:', error);
+                container.innerHTML = `
+                    <div class="loading" style="color: #dc3545;">
+                        <i class="fas fa-exclamation-triangle"></i> 加载失败，请刷新重试
+                    </div>
+                `;
+            }
+        }
+        
+        // ========== 视频播放控制（本地） ==========
+        function playVideo(videoId) {
+            const video = globalVideoList.find(v => v.id === videoId);
+            if (!video) return;
+            
+            // 更新本地当前播放
+            currentVideoId = videoId;
+            localStorage.setItem('currentVideoId', videoId);
+            
+            // 解析视频URL
+            const parsed = parseVideoUrl(video.url, video.type);
+            
+            // 更新播放器
+            const player = document.getElementById('videoPlayer');
+            player.src = parsed.embedUrl;
+            
+            // 尝试跳转到上次播放位置
+            const progress = videoProgress[videoId];
+            if (progress && progress.currentTime) {
+                // 对于iframe视频，需要等待加载完成后跳转
+                player.onload = () => {
+                    // 这里需要根据不同的视频平台发送跳转指令
+                    // 简化处理：不自动跳转，只显示提示
+                    console.log(`上次播放到 ${formatTime(progress.currentTime)}`);
+                };
+            }
+            
+            // 更新UI
+            document.getElementById('currentVideoTitle').textContent = video.title;
+            
+            // 高亮当前视频
+            document.querySelectorAll('.video-item').forEach(item => {
+                item.classList.remove('playing');
+            });
+            document.getElementById(`video-${videoId}`).classList.add('playing');
+            
+            // 更新同步状态（仅提示，不影响其他设备）
+            updateSyncStatus('已切换视频（仅本设备）');
+        }
+        
+        // ========== 添加视频 ==========
+        document.getElementById('addVideoForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const title = document.getElementById('videoTitle').value;
+            const url = document.getElementById('videoUrl').value;
+            const type = document.getElementById('videoType').value;
+            
+            const parsed = parseVideoUrl(url, type);
+            
+            const videoData = {
+                title,
+                url,
+                type: parsed.type,
+                embedUrl: parsed.embedUrl,
+                addedAt: new Date().toISOString()
+            };
+            
+            try {
+                await addVideo(videoData);
+                
+                // 清空表单
+                e.target.reset();
+                
+                // 重新加载列表
+                await loadVideoList();
+                
+                // 如果这是第一个视频，自动播放
+                if (globalVideoList.length === 1) {
+                    playVideo(globalVideoList[0].id);
+                }
+                
+                updateSyncStatus('视频已添加到全局列表');
+                
+            } catch (error) {
+                console.error('添加视频失败:', error);
+                alert('添加失败，请重试');
+            }
+        });
+        
+        // ========== 删除视频 ==========
+        async function deleteVideoHandler(videoId) {
+            if (!confirm('确定要删除这个视频吗？')) return;
+            
+            try {
+                await deleteVideo(videoId);
+                await loadVideoList();
+                updateSyncStatus('视频已从全局列表删除');
+                
+            } catch (error) {
+                console.error('删除视频失败:', error);
+                alert('删除失败，请重试');
+            }
+        }
+        
+        // ========== 自动同步（仅同步列表和进度，不同步当前播放） ==========
+        async function syncWithServer() {
+            try {
+                // 只同步视频列表和服务器上的进度
+                const serverVideos = await getVideoList();
+                
+                // 合并进度：本地进度优先，服务器进度作为补充
+                for (let video of serverVideos) {
+                    if (video.progress && !videoProgress[video.id]) {
+                        // 如果本地没有这个视频的进度，使用服务器的
+                        videoProgress[video.id] = video.progress;
+                    }
+                }
+                
+                // 更新全局列表
+                globalVideoList = serverVideos;
+                
+                // 重新加载列表显示
+                await loadVideoList();
+                
+            } catch (error) {
+                console.error('同步失败:', error);
+            }
+        }
+        
+        // ========== 播放进度监听 ==========
+        // 由于iframe的限制，无法直接获取播放进度
+        // 这里简化处理：用户手动点击保存进度
+        function saveCurrentProgress() {
+            if (!currentVideoId) return;
+            
+            // 这里在实际中需要与iframe通信获取当前时间
+            // 简化处理：弹窗让用户输入
+            const timeStr = prompt('输入当前播放时间（秒）:');
+            if (timeStr) {
+                const currentTime = parseFloat(timeStr);
+                const video = globalVideoList.find(v => v.id === currentVideoId);
+                if (video) {
+                    updateVideoProgress(currentVideoId, currentTime, video.duration || 3600);
+                    loadVideoList();
+                    alert('进度已保存并同步到其他设备');
+                }
+            }
+        }
+        
+        // ========== 初始化 ==========
+        window.addEventListener('load', async () => {
+            // 初始加载
+            await syncWithServer();
+            
+            // 如果有上次播放的视频，自动恢复
+            if (currentVideoId) {
+                const video = globalVideoList.find(v => v.id === currentVideoId);
+                if (video) {
+                    playVideo(currentVideoId);
+                } else {
+                    // 视频已被删除
+                    currentVideoId = null;
+                    localStorage.removeItem('currentVideoId');
+                }
+            }
+            
+            // 每30秒同步一次（只同步列表和进度）
+            syncInterval = setInterval(syncWithServer, 30000);
+            
+            // 添加快捷键（可选）
+            window.addEventListener('keydown', (e) => {
+                // Ctrl+S 保存进度
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    saveCurrentProgress();
+                }
+            });
+        });
+        
+        // 页面关闭前清理
+        window.addEventListener('beforeunload', () => {
+            if (syncInterval) {
+                clearInterval(syncInterval);
+            }
+        });
+        
+        // HTML转义
+        function escapeHtml(unsafe) {
+            if (!unsafe) return '';
+            return unsafe
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
 </body>
 </html>
