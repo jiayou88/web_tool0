@@ -1,1 +1,126 @@
 
+// ========== 视频播放列表 ==========
+// 存储结构：
+// videos: 视频列表数组
+// currentVideo: 当前播放的视频ID
+// video:${id}:progress: 视频播放进度
+
+// 获取所有视频
+async function getVideos(env) {
+    const videos = await env.WEBTOOL_KV.get('videos', 'json') || [];
+    // 为每个视频加载进度
+    for (let video of videos) {
+        const progress = await env.WEBTOOL_KV.get(`video:${video.id}:progress`, 'json');
+        if (progress) {
+            video.progress = progress;
+        }
+    }
+    return videos;
+}
+
+// 添加视频
+async function addVideo(request, env) {
+    const videoData = await request.json();
+    
+    // 生成唯一ID
+    videoData.id = Date.now().toString(36) + Math.random().toString(36).substr(2, 5);
+    
+    // 获取现有视频列表
+    const videos = await env.WEBTOOL_KV.get('videos', 'json') || [];
+    
+    // 添加到列表开头
+    videos.unshift(videoData);
+    
+    // 只保留最近50个视频
+    if (videos.length > 50) {
+        videos.pop();
+    }
+    
+    // 保存
+    await env.WEBTOOL_KV.put('videos', JSON.stringify(videos));
+    
+    return new Response(JSON.stringify(videoData), {
+        status: 201,
+        headers: { 'Content-Type': 'application/json', ...CORS_HEADERS }
+    });
+}
+
+// 更新视频进度
+async function updateVideoProgress(request, env) {
+    const { videoId, currentTime, duration } = await request.json();
+    
+    const progress = {
+        currentTime,
+        duration,
+        updatedAt: new Date().toISOString()
+    };
+    
+    await env.WEBTOOL_KV.put(`video:${videoId}:progress`, JSON.stringify(progress));
+    
+    return new Response(JSON.stringify({ success: true }), {
+        headers: { 'Content-Type': 'application/json', ...CORS_HEADERS }
+    });
+}
+
+// 设置当前播放视频
+async function setCurrentVideo(request, env) {
+    const { videoId } = await request.json();
+    
+    await env.WEBTOOL_KV.put('currentVideo', videoId);
+    
+    return new Response(JSON.stringify({ success: true }), {
+        headers: { 'Content-Type': 'application/json', ...CORS_HEADERS }
+    });
+}
+
+// 获取当前播放视频
+async function getCurrentVideo(env) {
+    const videoId = await env.WEBTOOL_KV.get('currentVideo');
+    
+    return new Response(JSON.stringify({ videoId }), {
+        headers: { 'Content-Type': 'application/json', ...CORS_HEADERS }
+    });
+}
+
+// 删除视频
+async function deleteVideo(request, env, videoId) {
+    // 获取视频列表
+    const videos = await env.WEBTOOL_KV.get('videos', 'json') || [];
+    
+    // 过滤掉要删除的视频
+    const updated = videos.filter(v => v.id !== videoId);
+    
+    // 保存
+    await env.WEBTOOL_KV.put('videos', JSON.stringify(updated));
+    
+    // 删除进度记录
+    await env.WEBTOOL_KV.delete(`video:${videoId}:progress`);
+    
+    // 如果删除的是当前播放的视频
+    const currentVideo = await env.WEBTOOL_KV.get('currentVideo');
+    if (currentVideo === videoId) {
+        await env.WEBTOOL_KV.delete('currentVideo');
+    }
+    
+    return new Response(JSON.stringify({ success: true }), {
+        headers: { 'Content-Type': 'application/json', ...CORS_HEADERS }
+    });
+}
+
+// 清空所有视频
+async function clearAllVideos(env) {
+    const videos = await env.WEBTOOL_KV.get('videos', 'json') || [];
+    
+    // 删除所有视频的进度记录
+    for (let video of videos) {
+        await env.WEBTOOL_KV.delete(`video:${video.id}:progress`);
+    }
+    
+    // 清空视频列表和当前视频
+    await env.WEBTOOL_KV.delete('videos');
+    await env.WEBTOOL_KV.delete('currentVideo');
+    
+    return new Response(JSON.stringify({ success: true }), {
+        headers: { 'Content-Type': 'application/json', ...CORS_HEADERS }
+    });
+}
