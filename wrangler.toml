@@ -1,10 +1,11 @@
-name = "web-tool"  # 你的 Worker 名称，可以自定义
+name = "web-tool"
 compatibility_date = "2026-02-19"
 
 [assets]
-directory = "."  # 当前目录作为静态资源目录
-binding = "ASSETS"  # 可选，如果需要访问资源
+directory = "."
+binding = "ASSETS"
 
-[site]
-bucket = "."  # 旧版配置，兼容性更好
-entry-point = "."
+# 删除或注释掉 [site] 部分
+# [site]
+# bucket = "."
+# entry-point = "."
