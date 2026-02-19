@@ -1,11 +1,7 @@
 name = "web-tool"
 compatibility_date = "2026-02-19"
+main = "index.js"  # 添加这行
 
 [assets]
 directory = "."
-binding = "ASSETS"
-
-# 删除或注释掉 [site] 部分
-# [site]
-# bucket = "."
-# entry-point = "."
+binding = "ASSETS"  # 现在可以保留 binding 了
